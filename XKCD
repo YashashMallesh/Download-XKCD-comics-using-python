@@ -1,3 +1,6 @@
+#! python3
+# Downloads all XKCD comics
+
 import os
 import requests
 import bs4
