@@ -5,8 +5,9 @@ import os , requests , bs4
 
 url = "https://xkcd.com"  # Starting URL
 output_dir = "xkcd_comics"
-os.makedirs(output_dir, exist_ok=True)
+os.makedirs(output_dir, exist_ok=True) # Store comics in ./xkcd. 
 
+# Download the page.
 while not url.endswith("#"):
     print(f"Downloading page {url}...")
     res = requests.get(url)
@@ -15,12 +16,14 @@ while not url.endswith("#"):
     soup = bs4.BeautifulSoup(res.text, "html.parser")
     comic_elem = soup.select("#comic img")
 
+    # Find the url of the comic image.
     if comic_elem:
         comic_url = "https:" + comic_elem[0].get("src")
         print(f"Downloading image {comic_url}...")
         res = requests.get(comic_url)
         res.raise_for_status()
 
+        # Save the image ./xkcd
         image_name = os.path.basename(comic_url)
         with open(os.path.join(output_dir, image_name), "wb") as img_file:
             img_file.write(res.content)
