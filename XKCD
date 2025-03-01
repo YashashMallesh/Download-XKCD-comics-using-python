@@ -34,4 +34,4 @@ while not url.endswith("#"):
     else:
         break
 
-print("Done.")
+print("Done. The Download is completed!")
