@@ -1,5 +1,5 @@
 #! python3
-# Downloads all XKCD comics
+# Downloads all XKCD comics using mmultiple Threads
 
 import os , requests , bs4
 
@@ -35,3 +35,18 @@ while not url.endswith("#"):
         break
 
 print("Done. The Download is completed!")
+# Create and start the Thread objects
+downloadThreads = []
+for i in range(0, 140, 10):
+    start = i
+    end = i + 9
+    if start == 0:
+        start = 1 # There is no comic 0, so set it to 1.
+    downloadThread = threading.Thread(target=downloadXkcd, args=(start,end))
+    downloadThreads.append(downloadThread)
+    downloadThread.start()
+
+    # Wait for all threads to end
+    for downloadThread in downloadThreads:
+        downloadThread.join()
+    print('Done.')
